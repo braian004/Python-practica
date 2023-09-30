@@ -1,0 +1,5 @@
+print(4+3)
+print(4-3)
+print(4**3)
+print(34%33)
+print(int(34/23))

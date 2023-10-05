@@ -1,2 +1,2 @@
-def my_function(fname,Iname):
+def my_functionn(fname,Iname):
     print(fname)

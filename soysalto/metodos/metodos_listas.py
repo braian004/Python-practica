@@ -2,11 +2,12 @@ thislist = ["apple", "banana", "cherry"]
 lista =list(("hl",2,3,True))#usando contructor
 lista2 = [3,"lista",True,2] 
 #devuelve la cantidad de elementos de una lista 
-cantidad_elementos = len(lista)
+# cantidad_elementos = len(lista)
 
 #AGREGAR agrega un elemento en el ultimo index a la lista
-lista.append("as")
-
+# lista.append("as")
+lista2.append(3)
+print(lista2)
 #AGREGAR un elemento a la lista en un indice especifico 
 lista2.insert(0,"Tom")
 # CAHNGE the second item
@@ -30,4 +31,4 @@ lista.sort
 #invirtiendo los elementos de la lista
 lista.reverse()
 
-print (dir(lista))#ver lo que se puede aser con lista
+# print (dir(lista))#ver lo que se puede aser con lista

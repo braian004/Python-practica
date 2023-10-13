@@ -1,6 +1,6 @@
 cadenas1 = "Hl Satanas"
 cadenas2 = "Bienvenidos Maquinola"
-
+string1 = "Soy ONE STRING"
 #mayusculas
 mayus = cadenas1.upper()
 
@@ -39,10 +39,10 @@ remplazar_valor = cadenas1.replace("Hl","hola")
 
 remplace_valor = cadenas2.replace(" ",",")
 
-#separaer cadenas con la cadenas que le demos 
+#separaer en cadenas la cadenas que le demos 
 cadena_separada = cadenas1.split(",")
 
-print(empieza_com)
-print(cadena_separada[0])
+# print(empieza_com)
+# print(cadena_separada[0])
 
-print(cadenas1)
+# print(cadenas1)

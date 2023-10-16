@@ -7,5 +7,6 @@ clientes = [["Chanchito",3],
 #     nombres.append(clientes[0])
 # print(nombres)
 
-nombres=[clientes[1] for clientes in clientes]
+nombres=[clientes[0] for clientes in clientes]
+nombres 
 print(nombres)

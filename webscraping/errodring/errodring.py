@@ -34,8 +34,8 @@ for i in p:
     count+=1
 
 #ordenamos de mayor a menor
-s = sorted(puntos,key=lambda x: int(x),reverse=True)   
-# print(s)
+s = sorted(puntos,key=lambda x: int(x),reverse=True)  
+# print(s
 # print(len(puntos))
 
 sd = pd.DataFrame({'Equipos':equipos,'Puntos':s},index=list(range(1,21)))

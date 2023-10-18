@@ -38,8 +38,13 @@ s = sorted(puntos,key=lambda x: int(x),reverse=True)
 # print(s)
 # print(len(puntos))
 
-d = pd.DataFrame({'Equipos':equipos,'Puntos':s},index=list(range(1,21)))
+sd = pd.DataFrame({'Equipos':equipos,'Puntos':s},index=list(range(1,21)))
 
-print(d)
+# print(sd)
 
+sd.to_csv('webscraping/errodring/equipo.csv', index=False)# csv 
 
+# Ruta del archivo Excel
+excel_file = 'webscraping/errodring/equipo.xlsx'
+# Guardar el DataFrame en un archivo Excel.
+sd.to_excel(excel_file, index=False)

@@ -43,7 +43,5 @@ cleaned_product_titles = extract_titles_precio(rodilleras_precio)
 for title_precio in cleaned_product_titles:
     print(title_precio)
 
-df = pd.DataFrame(list(zip(title_precio,title)), 
-                  columns =['Name', 'Precio'])
-df = df.reset_index(drop=True)
-print (df)
+sd = pd.DataFrame('Equipos':title_precio,'Puntos':title,index=list())
+print(sd)

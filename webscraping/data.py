@@ -46,7 +46,7 @@ cleaned_product_precio = extract_precio(rodilleras_precio)
 #     print(title_precio)
 
 rodilleras_precio_oferta = soup.find_all('div', class_="ui-search-coupon__label label-text-desktop")
-span class_="ui-search-price__discount"
+rodilleras_precio_oferta = soup.find_all('span', class_="ui-search-price__discount")
 # Function to extract the titles
 def extract_precio_oferta(html_precio_oferta):
     cleaned_precio_oferta = []

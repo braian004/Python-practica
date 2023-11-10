@@ -62,7 +62,8 @@ cleaned_product_precio_oferta = extract_precio_oferta(rodilleras_precio_oferta)
 # for precio_oferta in cleaned_product_precio_oferta:
 #     print(precio_oferta)
  
-df = pd.DataFrame(list(zip(cleaned_product_titles,cleaned_product_precio,cleaned_product_precio_oferta)), 
-                  columns =['Titulo','Precio','Ofertas'])
+df = pd.DataFrame(list(zip(cleaned_product_titles,cleaned_product_precio)), 
+                  columns =['Titulo','Precio'])
 df = df.reset_index(drop=True)
+df
 df.to_csv('Rodilleras.csv', index=False)

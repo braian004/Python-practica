@@ -1,69 +1,74 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd 
-
-url = "https://listado.mercadolibre.com.ar/rodilleras-deportivas#D[A:rodilleras%20deportivas]"
+from lxml import etree
+url = "https://listado.mercadolibre.com.ar/salud-equipamiento-medico/suplementos-alimenticios/proteina-whey_Desde_1_NoIndex_True"
 r = requests.get(url)
 soup = BeautifulSoup(r.content, "html.parser")
 
 # Find all the <h2> elements with the specified class
 rodilleras_titles = soup.find_all('h2', class_="ui-search-item__title")
-
+rodilleras_precios = soup.find_all("span",class_="andes-money-amount ui-search-price__part ui-search-price__part--medium andes-money-amount--cents-superscript")
+rodilleras_url = soup.find_all("a",class_="ui-search-item__group__element ui-search-link" )
 # Function to extract the titles
-def extract_titles(html_titles):
-    cleaned_titles = []
-    for title in html_titles:
+
+def extract_data(html):
+    clear = []
+    for title in html:
         # Extract the text within the <h2> tags
-        title_text = title.get_text()
-        cleaned_titles.append(title_text)
-    return cleaned_titles
+        text = title.get_text()
+        clear.append(text)
+    return clear
 
 # Call the function to extract the titles
-cleaned_product_titles = extract_titles(rodilleras_titles)
+rodilleras_url = soup.find_all("a",class_="ui-search-item__group__element ui-search-link" )
+rodilleras_url = [i.get('href')for i in rodilleras_url]
 
-# Print the cleaned product titles
-# for title in cleaned_product_titles:
-#     print(title)
+cleaned_product_precios = extract_data(rodilleras_precios)
+cleaned_product_titles = extract_data(rodilleras_titles)
 
-#PRECIO
+# print(cleaned_product_titles)
+lista_titulos = []
+lista_precios = []
+lista_urls=[]
 
-# Find all the <h2> elements with the specified class
-rodilleras_precio = soup.find_all('span', class_="andes-money-amount__fraction")
-# Function to extract the titles
-def extract_precio(html_precio):
-    cleaned_precio = []
-    for precio in html_precio:
-        # Extract the text within the <h2> tags
-        precio_text = precio.get_text()
-        cleaned_precio.append(precio_text)
-    return cleaned_precio
+siguiente = "https://listado.mercadolibre.com.ar/rodilleras-deportivas_Desde_1_NoIndex_True"
+while True:
+    r = requests.get(siguiente)
+    if r.status_code == 200:
+        soup = BeautifulSoup(r.content, 'html.parser')
 
-# Call the function to extract the titles
-cleaned_product_precio = extract_precio(rodilleras_precio)
+        rodilleras_titles = soup.find_all("h2",class_="ui-search-item__title")
+        rodilleras_titles = [i.text for i in rodilleras_titles]
+        lista_titulos.extend(rodilleras_titles)
+        
+        dom = etree.HTML(str(soup))
+        rodilleras_urls = dom.xpath("//a[@class='ui-search-item__group__element ui-search-link']/@href")    
+        lista_urls.extend(rodilleras_urls)
+        
+        rodilleras_precios = soup.find_all("span",class_="andes-money-amount ui-search-price__part ui-search-price__part--medium andes-money-amount--cents-superscript")
+        rodilleras_precios = [i.text for i in rodilleras_precios] 
+        lista_precios.extend(rodilleras_precios)
 
-# Print the cleaned product titles
-# for title_precio in cleaned_product_titles:
-#     print(title_precio)
+        ini = soup.find("li",class_="andes-pagination__button andes-pagination__button--current")
+        ini= int(ini.text)
 
-rodilleras_precio_oferta = soup.find_all('div', class_="ui-search-coupon__label label-text-desktop")
-rodilleras_precio_oferta = soup.find_all('span', class_="ui-search-price__discount")
-# Function to extract the titles
-def extract_precio_oferta(html_precio_oferta):
-    cleaned_precio_oferta = []
-    for precio_oferta in html_precio_oferta:
-        # Extract the text within the <h2> tags
-        precio_text = precio_oferta.get_text()
-        cleaned_precio_oferta.append(precio_text)
-    return cleaned_precio_oferta
+        can = soup.find("li",class_="andes-pagination__page-count")
 
-# Call the function to extract the titles
-cleaned_product_precio_oferta = extract_precio_oferta(rodilleras_precio_oferta)
+        can = can.text
+        can = int(can.replace("de ",""))
 
-# for precio_oferta in cleaned_product_precio_oferta:
-#     print(precio_oferta)
- 
-df = pd.DataFrame(list(zip(cleaned_product_titles,cleaned_product_precio)), 
-                  columns =['Titulo','Precio'])
-df = df.reset_index(drop=True)
-df
-df.to_csv('Rodilleras.csv', index=False)
+    else:
+        break
+    print(ini,can)    
+    if ini == can:
+        break
+
+    dom = etree.HTML(str(soup))
+    siguiente = dom.xpath("//li[@class='andes-pagination__button andes-pagination__button--next']/a")[0].get('href')   
+
+df = pd.DataFrame({'titulo':lista_titulos,'precios':lista_precios,'url':lista_urls})
+# df = df.reset_index(drop=True)
+df.to_csv('webscraping/mercado-libre-rodillera/proteina-data.csv',index=False)#direccion para .py and ipynb just 'name.csv'
+
+# df.to_csv('Rodilleras.csv', index=False)
